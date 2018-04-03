@@ -1,0 +1,39 @@
+""" Worked off code on https://github.com/dustinsgoodman/coursera_algorithms/blob/master/HW1/hw1.py"""
+import pandas as pd
+
+def merge_sort(a,b):
+    sorte=[] 
+    count=0
+    while len(a)>0 or len(b)>0:
+        if len(a)>0 and len(b)>0:
+            if a[0]<b[0]:
+                sorte.append(a[0])
+                a=a[1:]
+            else:
+                sorte.append(b[0])
+                b=b[1:]
+                count+=len(a)
+                
+        elif len(a)>0:
+            sorte.append(a[0])
+            a=a[1:]
+        elif len(b)>0:
+            sorte.append(b[0])
+            b=b[1:]
+    return sorte, count
+                
+def count_sort(df1):
+    if len(df1) <=1:
+        return df1, 0
+    
+    a,x=count_sort(df1[:len(df1)//2])
+    b,y=count_sort(df1[len(df1)//2:])
+    c,z=merge_sort(a,b)
+    return c, x+y+z
+        
+df=pd.read_csv('C:/Users/ketka/Desktop/coursera/algo.csv')
+df1=[]
+for i in df["Number"].values:
+    df1.append(i)
+arr, cnt= count_sort(df1)
+print(cnt)
